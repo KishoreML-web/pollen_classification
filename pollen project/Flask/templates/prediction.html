@@ -1,0 +1,51 @@
+<!-- templates/prediction.html - Final Corrected Version -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pollen Grain - Analysis Report</title>
+    <!-- This link correctly points to your CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- This link is for the icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="analysis-panel">
+    
+        <!-- LEFT COLUMN: IMAGE -->
+        <div class="image-column">
+            <div class="image-frame">
+                <img src="{{ result.image_path }}" alt="Uploaded Image" class="uploaded-image">
+            </div>
+        </div>
+        
+        <!-- RIGHT COLUMN: DATA -->
+        <div class="data-column">
+            <h1><i class="fa-solid fa-leaf title-icon"></i>Pollen Grain Analysis</h1>
+            <p class="subtitle">Microscopic analysis complete. Results are as follows.</p>
+
+            <div class="results-area">
+                <div class="result-card">
+                    <div class="result-label">Identified Species</div>
+                    <div class="species-name">{{ result.prediction }}</div>
+                </div>
+                <div class="result-card">
+                    <div class="result-label">Confidence Score</div>
+                    <div class="confidence-display">
+                        <div class="confidence-value">{{ result.confidence_numeric }}%</div>
+                        <div class="confidence-bar">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="{{ url_for('index') }}" class="action-button">Analyze Another</a>
+        </div>
+        
+    </div>
+
+</body>
+</html>
