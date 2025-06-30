@@ -1,0 +1,198 @@
+/* static/style.css - "Bio-Synthesis Interface" (Pollen Grain Theme) */
+
+/* 1. FONT IMPORT & CSS VARIABLES */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap');
+
+:root {
+    --font-main: 'Montserrat', sans-serif;
+    
+    /* An organic, professional Green & Gold theme */
+    --color-bg: #121410;
+    --color-surface: #1e211b;
+    --color-border: rgba(204, 163, 51, 0.3);
+    --color-glow-primary: #CCA333; /* Rich Gold */
+    --color-glow-secondary: #58A85D; /* Natural Green */
+    --color-text-primary: #E5E5E5;
+    --color-text-secondary: #A0A0A0;
+}
+
+/* 2. CORE SETUP & HEXAGON BACKGROUND */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: var(--color-bg);
+    /* Hexagon pattern that resembles a honeycomb or molecular structure */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='%23CCA333' fill-opacity='0.05' fill-rule='nonzero'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.99-7.5L26 15v18.5l-13 7.5L0 33.5V15z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    font-family: var(--font-main);
+    color: var(--color-text-primary);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 3. MAIN ANALYSIS PANEL (NO-SCROLL LAYOUT) */
+.analysis-panel {
+    width: 100%;
+    max-width: 850px;
+    background: linear-gradient(rgba(30, 33, 27, 0.8), rgba(30, 33, 27, 0.95));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    
+    display: flex;
+    gap: 30px;
+    padding: 30px;
+
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 1s ease-out 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 4. LAYOUT COLUMNS */
+.image-column {
+    flex: 0 0 45%;
+    display: flex; align-items: center;
+}
+.data-column {
+    flex: 1 1 auto;
+    display: flex; flex-direction: column;
+}
+
+/* 5. IMAGE FRAME */
+.image-frame {
+    width: 100%;
+    border-radius: 12px;
+    border: 2px solid var(--color-border);
+    padding: 4px;
+    background-color: #000;
+}
+.uploaded-image {
+    width: 100%; display: block; border-radius: 8px;
+}
+
+/* 6. TYPOGRAPHY & DATA DISPLAY */
+h1 {
+    font-size: 2.2rem; font-weight: 700;
+    color: var(--color-text-primary);
+    margin: 0 0 10px 0; line-height: 1.2;
+}
+.title-icon {
+    color: var(--color-glow-primary);
+    margin-right: 12px;
+}
+.subtitle {
+    font-size: 1rem; font-weight: 300;
+    color: var(--color-text-secondary);
+    margin-bottom: 25px;
+}
+.results-area {
+    display: flex; flex-direction: column; gap: 15px;
+    margin-bottom: auto;
+}
+.result-card {
+    background: rgba(0,0,0,0.2);
+    border-radius: 10px;
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out forwards;
+}
+.result-card:nth-child(1) { animation-delay: 1.0s; }
+.result-card:nth-child(2) { animation-delay: 1.2s; }
+
+.result-label {
+    font-size: 0.8rem; font-weight: 600;
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: 1.5px;
+}
+.species-name {
+    font-size: 2.2rem; font-weight: 600;
+    color: var(--color-glow-primary);
+}
+.confidence-display {
+    display: flex; align-items: center; gap: 15px;
+}
+.confidence-value {
+    font-size: 2rem; font-weight: 600;
+}
+.confidence-bar {
+    flex-grow: 1; height: 10px;
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 5px; overflow: hidden;
+}
+/* This is the NEW animated CSS */
+.confidence-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-glow-secondary), var(--color-glow-primary));
+    border-radius: 5px;
+    
+    /* Use the variable from the HTML to set the width */
+    width: var(--confidence-percent); 
+
+    /* Add a smooth animation */
+    transform: scaleX(0); /* Start scaled down to 0 */
+    transform-origin: left; /* Animate from the left side */
+    animation: fill-bar 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    animation-delay: 1.5s; /* Delay to match the card animation */
+}
+
+@keyframes fill-bar {
+    to {
+        transform: scaleX(1); /* Animate to full scale (which is the width) */
+    }
+}
+
+/* 7. ACTION BUTTON */
+.action-button {
+    font-weight: 600;
+    background: var(--color-glow-primary);
+    color: #000; border: none; padding: 12px 30px;
+    font-size: 1rem; border-radius: 8px; cursor: pointer;
+    text-decoration: none; align-self: flex-start; margin-top: 25px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.action-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 20px rgba(204, 163, 51, 0.4);
+}
+
+/* STYLES FOR INDEX & LOGOUT PAGE */
+.upload-wrapper {
+    text-align: center;
+    border: 2px dashed var(--color-border);
+    border-radius: 15px;
+    padding: 60px 40px;
+    background: rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.upload-wrapper:hover {
+    border-color: var(--color-glow-primary);
+    background: rgba(204, 163, 51, 0.05);
+}
+.page-icon {
+    font-size: 4rem;
+    color: var(--color-glow-primary);
+    margin-bottom: 15px;
+}
+/* ============ Two‑column desktop / one‑column mobile ============ */
+.analysis-panel {             /* parent flex box */
+  display: flex;
+  flex-direction: row;        /* side‑by‑side by default */
+  flex-wrap: nowrap;
+}
+
+@media (max-width: 640px) {   /* phone, tablet portrait */
+  .analysis-panel { flex-direction: column; }   /* stack */
+  .image-column,
+  .data-column  { flex: 1 1 100%; }
+}
